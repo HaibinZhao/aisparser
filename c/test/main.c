@@ -31,6 +31,7 @@ int main( int argc, char *argv[] )
     aismsg_12 msg_12;
 	aismsg_18 msg_18;
 	aismsg_24 msg_24;
+	aismsg_27 msg_27;
 
     char *test_msgs[] = { "19NS7Sp02wo?HETKA2K6mUM20<L=",
                           "35Mk33gOkSG?bLtK?;B2dRO`00`",
@@ -43,7 +44,8 @@ int main( int argc, char *argv[] )
                           "D03OwphiIN>4",
                           "B52IRsP005=abWRnlQP03w`UkP06",
                           "H52IRsP518Tj0l59D0000000000",
-                          "H52IRsTU000000000000000@5120"
+                          "H52IRsTU000000000000000@5120",
+                          "K3M@PpqK>Qkv=PEp"
 
 
     };
@@ -59,7 +61,7 @@ int main( int argc, char *argv[] )
                           "!AIVDM,1,1,,B,15Mts3?P@;G8RB@JLbgamrBF0H6B,0*16,142,aass,12311",
                           "!AIVDM,1,1,,A,34a=CB1001JwAEhHra0qk4wF2000,0*5B",
                           "\\s:ASM//Port=63//MMSI=2573225,c:1301961602*7A\\!BSVDM,1,1,,A,13P<JR50h00IkkJQi<Dt29ef0`PL,0*57",
-                          "AIVDM,1,1,,A,18UG;P0012G?Uq4EdHa=c;7@051@,0*53"
+                          "AIVDM,1,1,,A,18UG;P0012G?Uq4EdHa=c;7@051@,0*53"			  
     };
 
     
@@ -109,6 +111,10 @@ int main( int argc, char *argv[] )
         exit(-1);
     }
     if (test_conv_pos() != 1)
+    {
+        exit(-1);
+    }
+    if (test_conv_pos27() != 1)
     {
         exit(-1);
     }
@@ -176,13 +182,17 @@ int main( int argc, char *argv[] )
     {
         exit(-1);
     }
+    if( test_ais_27() != 1 )
+    {
+            exit(-1);
+    }
 
     printf("Testing test_msgs\n");
     
     /* Clear out the structures */
     memset( &ais, 0, sizeof( ais_state ) );
 
-    for (i=0; i<12; i++)
+    for (i=0; i<13; i++)
     {
         init_6bit( &ais.six_state );
         strcpy( ais.six_state.bits, test_msgs[i] );
@@ -276,6 +286,16 @@ int main( int argc, char *argv[] )
 					{
 						printf("Callsign : %s\n", msg_24.callsign );
 					}
+                } 
+                break;
+			
+            case 27:
+                if( parse_ais_27( &ais, &msg_27 ) == 0 )
+                {
+                    /* Do something with results */
+                    printf( "MMSI : %09ld\n", msg_27.userid );
+                    printf( "Lat  : %ld\n", msg_27.latitude  );
+                    printf( "Long : %ld\n", msg_27.longitude  );
                 } 
                 break;
 
