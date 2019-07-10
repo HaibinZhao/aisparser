@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>AisParser.Core</AssemblyName>
+    <RootNamespace>AisParser</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>ZhaoWeiQiang&lt;zwq00000@gmail.com&gt;</Authors>
+    <PackageId>AisParser.Core</PackageId>
+    <Product>AIS Parser SDK for .Net Core</Product>
+    <Description>source from https://github.com/bcl/aisparser ,add .net stadard2.0 version</Description>
+    <Copyright>zwq00000@hotmail.com</Copyright>
+    <PackageTags>AIS;NetStandard</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <Company>XiGe Tech CO.</Company>
+    <RepositoryUrl>https://github.com/zwq00000/aisparser</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

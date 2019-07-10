@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>AisParser</AssemblyName>
-    <RootNamespace>AisParser</RootNamespace>
-  </PropertyGroup>
-
-</Project>
