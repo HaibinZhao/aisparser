@@ -69,7 +69,7 @@ namespace AisParser.Tests {
                     }
                 }
             }
-            Assert.Equal(100,msgs.Count);
+            Assert.True(msgs.Count>100);
         }
 
     }
