@@ -9,7 +9,7 @@ namespace AisParser.Tests {
             var msg = new Message1();
 
             var result = vdmMessage.Add("!AIVDM,1,1,,B,19NS7Sp02wo?HETKA2K6mUM20<L=,0*27\r\n");
-                AssertEquals("vdm add failed", 0, result);
+                AssertEquals("vdm add failed", 0, (int)result);
                 msg.Parse(vdmMessage.SixState);
             
 
