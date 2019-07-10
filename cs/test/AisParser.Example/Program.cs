@@ -26,7 +26,7 @@ namespace AisParser.Example {
                         case VdmStatus.Complete:
                             try {
                                 var msg = vdm.ToMessage();
-                                FormatMsg(msg);
+                                FormatMsg(vdm, msg);
                             } catch (Exception ex) {
                                 Console.Error.WriteLine(ex.ToString());
                             }
@@ -34,13 +34,14 @@ namespace AisParser.Example {
                             vdm = new Vdm();
                             break;
                         case VdmStatus.Incomplete:
-                            Console.Write(".");
+                            Console.WriteLine(" {0} Num:{1} Sequence:{2}",vdm.Total,vdm.Num,vdm.Sequence);
                             break;
                         case VdmStatus.ChecksumFailed:
                         case VdmStatus.NotAisMessage:
                         case VdmStatus.NmeaNextError:
                         case VdmStatus.OutofSequence:
                         default:
+                        
                             Console.WriteLine(line);
                             Console.Error.WriteLine(result);
                             break;
@@ -49,7 +50,7 @@ namespace AisParser.Example {
             }
         }
 
-        private static void FormatMsg(Messages msg) {
+        private static void FormatMsg(Vdm vdm,Messages msg) {
             Console.WriteLine("Message {0} MMSI:{1}", msg.MsgId, msg.UserId);
             if(msg is Message1 msg1){
                 Console.WriteLine(FormatMsg(msg1));

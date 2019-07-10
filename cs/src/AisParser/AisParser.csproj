@@ -15,5 +15,9 @@
     <Company>XiGe Tech CO.</Company>
     <RepositoryUrl>https://github.com/zwq00000/aisparser</RepositoryUrl>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  
 </Project>
