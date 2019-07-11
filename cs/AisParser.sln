@@ -9,6 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AisParser.Tests", "test\Ais
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AisParser.Example", "test\AisParser.Example\AisParser.Example.csproj", "{98DC4B30-23C7-4F7E-BA11-386B1366177D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6C80B02-1F2E-454B-8B40-1B55F639B62F}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
