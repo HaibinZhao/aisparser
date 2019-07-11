@@ -32,7 +32,7 @@
         /// <exception cref="SixbitsExhaustedException"></exception>
         /// <exception cref="AisMessageException"></exception>
         public void Parse(Sixbit sixState) {
-            if (sixState.BitLength() < 19) throw new AisMessageException("SOTDMA wrong length");
+            if (sixState.BitLength< 19) throw new AisMessageException("SOTDMA wrong length");
 
             SyncState = (char) sixState.Get(2);
             SlotTimeout = (char) sixState.Get(3);

@@ -108,7 +108,7 @@
         /// <exception cref="SixbitsExhaustedException"></exception>
         /// <exception cref="AisMessageException"></exception>
         public override void Parse(Sixbit sixState) {
-            var length = sixState.BitLength();
+            var length = sixState.BitLength;
             if (length < 272 || length > 360) throw new AisMessageException("Message 21 wrong length");
 
             base.Parse(sixState);

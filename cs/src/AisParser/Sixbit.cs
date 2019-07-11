@@ -98,9 +98,7 @@ namespace AisParser {
         ///     Takes into account the number of padding bits.
         /// </summary>
         /// <returns>Return the number of bits</returns>
-        public int BitLength() {
-            return Length * 6 - _padBits;
-        }
+        public int BitLength => Length * 6 - _padBits;
 
         /// <summary>
         ///     Convert an ASCII value to a 6-bit binary value
@@ -223,15 +221,17 @@ namespace AisParser {
         /// <returns> String of the characters</returns>
         public string GetString(int length) {
             var tmpStr = new char[length];
-            int i = 0;
+            int len = 0;
             // Get the 6-bit string, convert to ASCII
-            for (; i < length; i++){
+            for (var i = 0; i < length; i++){
                 try {
                     var c = (char) Ais2Ascii((char) Get(6));
                     if(c == '@'){
-                        break;
+                        //skip '@' char
+                        continue;
                     }else{
                         tmpStr[i] = c;
+                        len++;
                     }
                 } catch (SixbitsExhaustedException) {
                     //for (var j = i; j < length; j++) tmpStr[j] = '@';
@@ -239,7 +239,7 @@ namespace AisParser {
                 }
             }
 
-            return new string(tmpStr,0,i);
+            return new string(tmpStr,0,len);
         }
     }
 }

@@ -84,7 +84,7 @@
         //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
         //ORIGINAL LINE: public void parse(Sixbit six_state) throws SixbitsExhaustedException, AISMessageException
         public override void Parse(Sixbit sixState) {
-            if (sixState.BitLength() != 168) throw new AisMessageException("Message 2 wrong length");
+            if (sixState.BitLength!= 168) throw new AisMessageException("Message 2 wrong length");
 
             base.Parse(sixState);
 

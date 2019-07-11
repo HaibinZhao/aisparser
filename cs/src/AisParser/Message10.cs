@@ -34,7 +34,7 @@
         /// <exception cref="SixbitsExhaustedException"></exception>
         /// <exception cref="AisMessageException"></exception>
         public override void Parse(Sixbit sixState) {
-            if (sixState.BitLength() != 72) throw new AisMessageException("Message 10 wrong length");
+            if (sixState.BitLength!= 72) throw new AisMessageException("Message 10 wrong length");
 
             base.Parse(sixState);
 

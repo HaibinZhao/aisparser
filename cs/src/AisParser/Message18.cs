@@ -24,7 +24,7 @@
         /// <summary>
         ///     1 bit    : Position Accuracy
         /// </summary>
-        public int Pos_acc { get; private set; }
+        public int PosAcc { get; private set; }
 
         /// <summary>
         ///     : Lat/Long 1/100000 minute
@@ -39,12 +39,12 @@
         /// <summary>
         ///     9 bits   : True Heading
         /// </summary>
-        public int True_heading { get; private set; }
+        public int TrueHeading { get; private set; }
 
         /// <summary>
         ///     6 bits   : UTC Seconds
         /// </summary>
-        public int Utc_sec { get; private set; }
+        public int UtcSec { get; private set; }
 
         /// <summary>
         ///     2 bits   : Regional Bits
@@ -54,32 +54,32 @@
         /// <summary>
         ///     1 bit    : Class B CS Flag
         /// </summary>
-        public int Unit_flag { get; private set; }
+        public int UnitFlag { get; private set; }
 
         /// <summary>
         ///     1 bit    : Integrated msg14 Display Flag
         /// </summary>
-        public int Display_flag { get; private set; }
+        public int DisplayFlag { get; private set; }
 
         /// <summary>
         ///     1 bit    : DSC Capability flag
         /// </summary>
-        public int Dsc_flag { get; private set; }
+        public int DscFlag { get; private set; }
 
         /// <summary>
         ///     1 bit    : Marine Band Operation Flag
         /// </summary>
-        public int Band_flag { get; private set; }
+        public int BandFlag { get; private set; }
 
         /// <summary>
         ///     1 bit    : Msg22 Frequency Management Flag
         /// </summary>
-        public int Msg22_flag { get; private set; }
+        public int Msg22Flag { get; private set; }
 
         /// <summary>
         ///     1 bit    : Autonomous Mode Flag
         /// </summary>
-        public int Mode_flag { get; private set; }
+        public int ModeFlag { get; private set; }
 
         /// <summary>
         ///     1 bit    : RAIM Flag
@@ -89,10 +89,10 @@
         /// <summary>
         ///     1 bit    : Comm State Flag
         /// </summary>
-        public int Comm_state { get; private set; }
+        public int CommState { get; private set; }
 
-        public Sotdma Sotdma_state { get; private set; }
-        public Itdma Itdma_state { get; private set; }
+        public Sotdma SotdmaState { get; private set; }
+        public Itdma ItdmaState { get; private set; }
 
         /// <summary>
         ///     Subclasses need to override with their own parsing method
@@ -101,35 +101,35 @@
         /// <exception cref="SixbitsExhaustedException"></exception>
         /// <exception cref="AisMessageException"></exception>
         public override void Parse(Sixbit sixState) {
-            if (sixState.BitLength() != 168) throw new AisMessageException("Message 18 wrong length");
+            if (sixState.BitLength!= 168) throw new AisMessageException("Message 18 wrong length");
 
             base.Parse(sixState);
 
             Regional1 = (int) sixState.Get(8);
             Sog = (int) sixState.Get(10);
-            Pos_acc = (int) sixState.Get(1);
+            PosAcc = (int) sixState.Get(1);
 
             Pos = new Position();
             Pos.Longitude = sixState.Get(28);
             Pos.Latitude = sixState.Get(27);
 
             Cog = (int) sixState.Get(12);
-            True_heading = (int) sixState.Get(9);
-            Utc_sec = (int) sixState.Get(6);
+            TrueHeading = (int) sixState.Get(9);
+            UtcSec = (int) sixState.Get(6);
             Regional2 = (int) sixState.Get(2);
-            Unit_flag = (int) sixState.Get(1);
-            Display_flag = (int) sixState.Get(1);
-            Dsc_flag = (int) sixState.Get(1);
-            Band_flag = (int) sixState.Get(1);
-            Msg22_flag = (int) sixState.Get(1);
-            Mode_flag = (int) sixState.Get(1);
+            UnitFlag = (int) sixState.Get(1);
+            DisplayFlag = (int) sixState.Get(1);
+            DscFlag = (int) sixState.Get(1);
+            BandFlag = (int) sixState.Get(1);
+            Msg22Flag = (int) sixState.Get(1);
+            ModeFlag = (int) sixState.Get(1);
             Raim = (int) sixState.Get(1);
-            Comm_state = (int) sixState.Get(1);
+            CommState = (int) sixState.Get(1);
 
-            if (Comm_state == 0)
-                Sotdma_state = new Sotdma(sixState);
+            if (CommState == 0)
+                SotdmaState = new Sotdma(sixState);
             else
-                Itdma_state = new Itdma(sixState);
+                ItdmaState = new Itdma(sixState);
         }
     }
 }

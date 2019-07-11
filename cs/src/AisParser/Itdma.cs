@@ -31,7 +31,7 @@ namespace AisParser {
         public int KeepFlag { get; private set; }
 
         public void Parse(Sixbit sixState) {
-            if (sixState.BitLength() < 19) throw new AisMessageException("ITDMA wrong length");
+            if (sixState.BitLength< 19) throw new AisMessageException("ITDMA wrong length");
 
             SyncState = (char) sixState.Get(2);
             SlotInc = (int) sixState.Get(13);
