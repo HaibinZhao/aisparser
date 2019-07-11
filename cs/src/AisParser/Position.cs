@@ -10,15 +10,15 @@
 
         public Position() { }
 
-        public Position(long lat, long lng) {
-            this._latitude = lat;
-            this._longitude = lng;
+        public Position(long longitude, long latitude) {
+            this._longitude = longitude;
+            this._latitude = latitude;
         }
 
         public long Longitude {
             get => _longitude;
             set {
-                /* Convert longitude to signed number */
+                // Convert longitude to signed number 
                 if (value >= 0x8000000) {
                     _longitude = 0x10000000 - value;
                     _longitude *= -1;
@@ -31,7 +31,7 @@
         public long Latitude {
             get => _latitude;
             set {
-                /* Convert latitude to signed number */
+                // Convert latitude to signed number 
                 if (value >= 0x4000000) {
                     _latitude = 0x8000000 - value;
                     _latitude *= -1;

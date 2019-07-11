@@ -1,13 +1,4 @@
-﻿/**
- * AIS Parser SDK
- * AIS Message 3 Class
- * Copyright 2008 by Brian C. Lane <bcl@brianlane.com>
- * All Rights Reserved
- * 
- * @author Brian C. Lane
- */
-
-namespace AisParser {
+﻿namespace AisParser {
     /// <summary>
     ///     AIS Message 3 class
     ///     Position Report

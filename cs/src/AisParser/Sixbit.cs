@@ -57,6 +57,17 @@ namespace AisParser {
         /// </summary>
         public int Length => _bits.Length;
 
+        public Sixbit() :this(string.Empty){
+        }
+
+        public Sixbit(string bits) {
+            _bits = bits;
+            _bitsIndex = 0;
+            _remainder = 0;
+            _remainderLength = 0;
+            _padBits = 0;
+        }
+
         /// <summary>
         ///     Initialize a 6-bit datastream structure
         ///     This function initializes the state of the sixbit parser variables
@@ -106,7 +117,7 @@ namespace AisParser {
         /// <exception cref="ArgumentException"></exception>
         public int Binfrom6Bit(int ascii) {
             if (ascii < 0x30 || ascii > 0x77 || ascii > 0x57 && ascii < 0x60)
-                throw new ArgumentException("Illegal 6-bit ASCII value");
+                throw new SixbitsExhaustedException("Illegal 6-bit ASCII value");
             if (ascii < 0x60)
                 return (ascii - 0x30) & 0x3F;
             return (ascii - 0x38) & 0x3F;
@@ -124,7 +135,7 @@ namespace AisParser {
         ///     @returns 6-bit ASCII
         /// </param>
         public int BinTo6Bit(int value) {
-            if (value > 0x3F) throw new ArgumentException("Value is out of range (0-0x3F)");
+            if (value > 0x3F) throw new SixbitsExhaustedException("Value is out of range (0-0x3F)");
             if (value < 0x28)
                 return value + 0x30;
             return value + 0x38;
@@ -144,7 +155,7 @@ namespace AisParser {
         /// </param>
         /// <exception cref="ArgumentException">value &gt; 0x3F</exception>
         public int Ais2Ascii(int value) {
-            if (value > 0x3F) throw new ArgumentException("Value is out of range (0-0x3F)");
+            if (value > 0x3F) throw new SixbitsExhaustedException("Value is out of range (0-0x3F)");
             if (value < 0x20)
                 return value + 0x40;
             return value;
@@ -212,17 +223,23 @@ namespace AisParser {
         /// <returns> String of the characters</returns>
         public string GetString(int length) {
             var tmpStr = new char[length];
-
+            int i = 0;
             // Get the 6-bit string, convert to ASCII
-            for (var i = 0; i < length; i++)
+            for (; i < length; i++){
                 try {
-                    tmpStr[i] = (char) Ais2Ascii((char) Get(6));
+                    var c = (char) Ais2Ascii((char) Get(6));
+                    if(c == '@'){
+                        break;
+                    }else{
+                        tmpStr[i] = c;
+                    }
                 } catch (SixbitsExhaustedException) {
-                    for (var j = i; j < length; j++) tmpStr[j] = '@';
+                    //for (var j = i; j < length; j++) tmpStr[j] = '@';
                     break;
                 }
+            }
 
-            return new string(tmpStr);
+            return new string(tmpStr,0,i);
         }
     }
 }

@@ -1,13 +1,5 @@
 ﻿namespace AisParser {
     /// <summary>
-    ///     AIS Parser SDK
-    ///     AIS sotdma Class
-    ///     Copyright 2008 by Brian C. Lane
-    ///     <bcl@ brianlane.com>
-    ///         All Rights Reserved
-    ///         @author Brian C. Lane
-    /// </summary>
-    /// <summary>
     ///     AIS Sotdma class
     /// </summary>
     public class Sotdma {

@@ -1,13 +1,5 @@
 ﻿namespace AisParser {
     /// <summary>
-    ///     AIS Parser SDK
-    ///     AIS Message 4 Class
-    ///     Copyright 2008 by Brian C. Lane
-    ///     <bcl@ brianlane.com>
-    ///         All Rights Reserved
-    ///         @author Brian C. Lane
-    /// </summary>
-    /// <summary>
     ///     AIS Message 4 class
     ///     Base Station Report
     /// </summary>
@@ -92,7 +84,6 @@
         /// <summary>
         ///     Subclasses need to override with their own parsing method
         /// </summary>
-        /// <param name="msgid"></param>
         /// <param name="sixState"></param>
         /// <exception cref="SixbitsExhaustedException"></exception>
         /// <exception cref="AisMessageException"></exception>

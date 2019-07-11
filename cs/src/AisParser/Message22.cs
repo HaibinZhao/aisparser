@@ -1,13 +1,5 @@
 ﻿namespace AisParser {
     /// <summary>
-    ///     AIS Parser SDK
-    ///     AIS Message 22 Class
-    ///     Copyright 2008 by Brian C. Lane
-    ///     <bcl@ brianlane.com>
-    ///         All Rights Reserved
-    ///         @author Brian C. Lane
-    /// </summary>
-    /// <summary>
     ///     AIS Message 22 class
     ///     Channel Management
     /// </summary>
@@ -27,17 +19,17 @@
         /// <summary>
         ///     12 bits  : M.1084 Channel A Frequency
         /// </summary>
-        public int Channel_a { get; private set; }
+        public int ChannelA { get; private set; }
 
         /// <summary>
         ///     12 bits  : M.1084 Channel B Frequency
         /// </summary>
-        public int Channel_b { get; private set; }
+        public int ChannelB { get; private set; }
 
         /// <summary>
         ///     4 bits   : TX/RX Mode
         /// </summary>
-        public int Txrx_mode { get; private set; }
+        public int TxrxMode { get; private set; }
 
         /// <summary>
         ///     1 bit    : Power Level
@@ -47,22 +39,22 @@
         /// <summary>
         ///     : NE Corner Lat/Long in 1/1000 minutes
         /// </summary>
-        public Position NE_pos { get; private set; }
+        public Position NePos { get; private set; }
 
         /// <summary>
         ///     30 bits  : Destination MMSI 1
         /// </summary>
-        public long Addressed_1 { get; private set; }
+        public long Addressed1 { get; private set; }
 
         /// <summary>
         ///     : SW Corner Lat/Long in 1/1000 minutes
         /// </summary>
-        public Position SW_pos { get; private set; }
+        public Position SwPos { get; private set; }
 
         /// <summary>
         ///     30 bits  : Destination MMSI 2
         /// </summary>
-        public long Addressed_2 { get; private set; }
+        public long Addressed2 { get; private set; }
 
         /// <summary>
         ///     1 bit    : Addressed flag
@@ -72,17 +64,17 @@
         /// <summary>
         ///     1 bit    : Channel A Bandwidth
         /// </summary>
-        public int Bw_a { get; private set; }
+        public int BwA { get; private set; }
 
         /// <summary>
         ///     1 bit    : Channel B Bandwidth
         /// </summary>
-        public int Bw_b { get; private set; }
+        public int BwB { get; private set; }
 
         /// <summary>
         ///     3 bits   : Transitional Zone size
         /// </summary>
-        public int Tz_size { get; private set; }
+        public int TzSize { get; private set; }
 
         /// <summary>
         ///     23 bits  : Spare
@@ -92,45 +84,46 @@
         /// <summary>
         ///     Subclasses need to override with their own parsing method
         /// </summary>
-        /// <param name="msgid"></param>
         /// <param name="sixState"></param>
         /// <exception cref="SixbitsExhaustedException"></exception>
         /// <exception cref="AisMessageException"></exception>
-        public override void Parse(Sixbit six_state) {
-            if (six_state.BitLength() != 168) throw new AisMessageException("Message 22 wrong length");
+        public override void Parse(Sixbit sixState) {
+            if (sixState.BitLength() != 168) throw new AisMessageException("Message 22 wrong length");
 
-            base.Parse(six_state);
+            base.Parse(sixState);
 
-            Spare1 = (int) six_state.Get(1);
-            Channel_a = (int) six_state.Get(12);
-            Channel_b = (int) six_state.Get(12);
-            Txrx_mode = (int) six_state.Get(4);
-            Power = (int) six_state.Get(1);
+            Spare1 = (int) sixState.Get(1);
+            ChannelA = (int) sixState.Get(12);
+            ChannelB = (int) sixState.Get(12);
+            TxrxMode = (int) sixState.Get(4);
+            Power = (int) sixState.Get(1);
 
-            var NE_longitude = six_state.Get(18);
-            var NE_latitude = six_state.Get(17);
+            var neLongitude = sixState.Get(18);
+            var neLatitude = sixState.Get(17);
 
-            var SW_longitude = six_state.Get(18);
-            var SW_latitude = six_state.Get(17);
+            var swLongitude = sixState.Get(18);
+            var swLatitude = sixState.Get(17);
 
-            Addressed = (int) six_state.Get(1);
-            Bw_a = (int) six_state.Get(1);
-            Bw_b = (int) six_state.Get(1);
-            Tz_size = (int) six_state.Get(3);
+            Addressed = (int) sixState.Get(1);
+            BwA = (int) sixState.Get(1);
+            BwB = (int) sixState.Get(1);
+            TzSize = (int) sixState.Get(3);
 
-            /* Is the position actually an address? */
+            // Is the position actually an address?
             if (Addressed == 1) {
-                /* Convert the positions to addresses */
-                Addressed_1 = (NE_longitude << 12) + (NE_latitude >> 5);
-                Addressed_2 = (SW_longitude << 12) + (SW_latitude >> 5);
+                // Convert the positions to addresses 
+                Addressed1 = (neLongitude << 12) + (neLatitude >> 5);
+                Addressed2 = (swLongitude << 12) + (swLatitude >> 5);
             } else {
-                NE_pos = new Position();
-                NE_pos.Longitude = NE_longitude * 10;
-                NE_pos.Latitude = NE_latitude * 10;
+                NePos = new Position {
+                    Longitude = neLongitude * 10,
+                    Latitude = neLatitude * 10
+                };
 
-                SW_pos = new Position();
-                SW_pos.Longitude = SW_longitude * 10;
-                SW_pos.Latitude = SW_latitude * 10;
+                SwPos = new Position {
+                    Longitude = swLongitude * 10,
+                    Latitude = swLatitude * 10
+                };
             }
         }
     }

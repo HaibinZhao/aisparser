@@ -71,34 +71,33 @@
         /// <summary>
         ///     Subclasses need to override with their own parsing method
         /// </summary>
-        /// <param name="msgid"></param>
         /// <param name="sixState"></param>
         /// <exception cref="SixbitsExhaustedException"></exception>
         /// <exception cref="AisMessageException"></exception>
-        public override void Parse(Sixbit six_state) {
-            if (six_state.BitLength() != 168) throw new AisMessageException("Message 11 wrong length");
+        public override void Parse(Sixbit sixState) {
+            if (sixState.BitLength() != 168) throw new AisMessageException("Message 11 wrong length");
 
-            base.Parse(six_state);
+            base.Parse(sixState);
 
             /* Parse the Message 11 */
-            Utc_year = (int) six_state.Get(14);
-            Utc_month = (int) six_state.Get(4);
-            Utc_day = (int) six_state.Get(5);
-            Utc_hour = (int) six_state.Get(5);
-            Utc_minute = (int) six_state.Get(6);
-            Utc_second = (int) six_state.Get(6);
-            Pos_acc = (int) six_state.Get(1);
+            Utc_year = (int) sixState.Get(14);
+            Utc_month = (int) sixState.Get(4);
+            Utc_day = (int) sixState.Get(5);
+            Utc_hour = (int) sixState.Get(5);
+            Utc_minute = (int) sixState.Get(6);
+            Utc_second = (int) sixState.Get(6);
+            Pos_acc = (int) sixState.Get(1);
 
             Pos = new Position {
-                Longitude = six_state.Get(28),
-                Latitude = six_state.Get(27)
+                Longitude = sixState.Get(28),
+                Latitude = sixState.Get(27)
             };
 
-            Pos_type = (int) six_state.Get(4);
-            Spare = (int) six_state.Get(10);
-            Raim = (int) six_state.Get(1);
+            Pos_type = (int) sixState.Get(4);
+            Spare = (int) sixState.Get(10);
+            Raim = (int) sixState.Get(1);
             Sotdma_state = new Sotdma();
-            Sotdma_state.Parse(six_state);
+            Sotdma_state.Parse(sixState);
         }
     }
 }

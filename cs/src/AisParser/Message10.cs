@@ -33,14 +33,14 @@
         /// <param name="sixState"></param>
         /// <exception cref="SixbitsExhaustedException"></exception>
         /// <exception cref="AisMessageException"></exception>
-        public override void Parse(Sixbit six_state) {
-            if (six_state.BitLength() != 72) throw new AisMessageException("Message 10 wrong length");
+        public override void Parse(Sixbit sixState) {
+            if (sixState.BitLength() != 72) throw new AisMessageException("Message 10 wrong length");
 
-            base.Parse(six_state);
+            base.Parse(sixState);
 
-            Spare1 = (int) six_state.Get(2);
-            Destination = six_state.Get(30);
-            Spare2 = (int) six_state.Get(2);
+            Spare1 = (int) sixState.Get(2);
+            Destination = sixState.Get(30);
+            Spare2 = (int) sixState.Get(2);
         }
     }
 }

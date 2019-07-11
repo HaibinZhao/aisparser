@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AisParser {
     internal class ChecksumFailedException : Exception {
@@ -65,6 +66,10 @@ namespace AisParser {
         /// </summary>
         public Sixbit SixState { get; private set; }
 
+        /// <summary>
+        /// vdm field spliter regex
+        /// </summary>
+        private static readonly Regex FieldSpliter = new Regex(",|\\*",RegexOptions.Compiled|RegexOptions.Singleline);
 
         /// <summary>
         ///     Assemble AIVDM/VDO sentences
@@ -93,21 +98,19 @@ namespace AisParser {
         /// <exception cref="StartNotFoundException"></exception>
         /// <exception cref="VDMSentenceException"></exception>
         public VdmStatus Add(string str) {
-            var nmeaMessage = new Nmea();
             int total;
             int num;
             int sequence;
-            nmeaMessage.Init(str);
 
-            if (nmeaMessage.CheckChecksum() != 0) throw new ChecksumFailedException();
-            var ptr = nmeaMessage.FindStart();
+            if (Nmea.CheckChecksum(str)!= 0) throw new ChecksumFailedException();
+            var ptr = Nmea.FindStart(str);
 
             // Allow any sender type for VDM and VDO messages
             //if (!str.regionMatches(ptr + 3, "VDM", 0, 3) && !str.regionMatches(ptr + 3, "VDO", 0, 3))
             var tag = str.Substring(ptr + 3, 3);
             if (!tag.Equals("VDM") && !tag.Equals("VDO")) throw new VDMSentenceException("Not a VDM or VDO message");
 
-            var fields = str.Split(",|\\*", true);
+            var fields = FieldSpliter.Split(str); //str.Split(",|\\*", true);
             if (fields.Length != 8) throw new VDMSentenceException("Does not have 8 fields");
 
             // Get the message info for multipart messages
@@ -118,10 +121,7 @@ namespace AisParser {
                 throw new VDMSentenceException("total or num field is not an integer");
             }
 
-            try {
-                sequence = int.Parse(fields[3]);
-            } catch (FormatException) {
-                // null sequence is not fatal
+            if (!int.TryParse(fields[3], out sequence)) {
                 sequence = 0;
             }
 
@@ -141,7 +141,6 @@ namespace AisParser {
                 Num = num;
                 Sequence = sequence;
                 SixState = new Sixbit();
-                SixState.Init("");
             }
 
             Channel = fields[4].FirstOrDefault();//[0];

@@ -77,7 +77,6 @@
         /// <summary>
         ///     Subclasses need to override with their own parsing method
         /// </summary>
-        /// <param name="msgid"></param>
         /// <param name="sixState"></param>
         /// <exception cref="SixbitsExhaustedException"></exception>
         /// <exception cref="AisMessageException"></exception>

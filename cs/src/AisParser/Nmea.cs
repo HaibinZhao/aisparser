@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace AisParser {
     internal class StartNotFoundException : Exception {
@@ -63,7 +64,7 @@ namespace AisParser {
         /// </summary>
         /// <returns>index of the start character</returns>
         /// <exception cref="StartNotFoundException"></exception>
-        public static int FindStart(ref string msg) {
+        public static int FindStart(string msg) {
             var i = 0;
             foreach (var x in msg) {
                 if (x == '!' || x == '$') return i;
@@ -83,12 +84,10 @@ namespace AisParser {
         /// <exception cref="IllegalNmeaCharacterException"></exception>
         public static int CalculateChecksum(string msg) {
             // Find start of sentence, after a '!' or '$'
-            var ptr = FindStart(ref msg) + 1;
-
-            var msgArray = msg.Substring(ptr);
+            var ptr = FindStart(msg) + 1;
 
             var checksum = 0;
-            foreach (var c in msgArray) {
+            foreach (var c in msg.Skip(ptr)) {
                 if (c == '!' || c == '$')
                     throw new IllegalNmeaCharacterException("Start Character Found before Checksum");
 
@@ -166,12 +165,11 @@ namespace AisParser {
             // Find start of sentence, after a '!' or '$'
             var ptr = FindStart() + 1;
 
-            var msgArray = _msg.Substring(ptr).ToCharArray();
-
             _checksum = 0;
-            foreach (var c in msgArray) {
-                if (c == '!' || c == '$')
+            foreach (var c in _msg.Skip(ptr)) {
+                if (c == '!' || c == '$') {
                     throw new IllegalNmeaCharacterException("Start Character Found before Checksum");
+                }
 
                 if (c == '*') break;
 

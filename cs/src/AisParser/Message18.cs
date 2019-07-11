@@ -1,13 +1,5 @@
 ﻿namespace AisParser {
     /// <summary>
-    ///     AIS Parser SDK
-    ///     AIS Message 18 Class
-    ///     Copyright 2008 by Brian C. Lane
-    ///     <bcl@ brianlane.com>
-    ///         All Rights Reserved
-    ///         @author Brian C. Lane
-    /// </summary>
-    /// <summary>
     ///     AIS Message 18 class
     ///     Standard Class B equipment position report
     /// </summary>
@@ -105,40 +97,39 @@
         /// <summary>
         ///     Subclasses need to override with their own parsing method
         /// </summary>
-        /// <param name="msgid"></param>
         /// <param name="sixState"></param>
         /// <exception cref="SixbitsExhaustedException"></exception>
         /// <exception cref="AisMessageException"></exception>
-        public override void Parse(Sixbit six_state) {
-            if (six_state.BitLength() != 168) throw new AisMessageException("Message 18 wrong length");
+        public override void Parse(Sixbit sixState) {
+            if (sixState.BitLength() != 168) throw new AisMessageException("Message 18 wrong length");
 
-            base.Parse(six_state);
+            base.Parse(sixState);
 
-            Regional1 = (int) six_state.Get(8);
-            Sog = (int) six_state.Get(10);
-            Pos_acc = (int) six_state.Get(1);
+            Regional1 = (int) sixState.Get(8);
+            Sog = (int) sixState.Get(10);
+            Pos_acc = (int) sixState.Get(1);
 
             Pos = new Position();
-            Pos.Longitude = six_state.Get(28);
-            Pos.Latitude = six_state.Get(27);
+            Pos.Longitude = sixState.Get(28);
+            Pos.Latitude = sixState.Get(27);
 
-            Cog = (int) six_state.Get(12);
-            True_heading = (int) six_state.Get(9);
-            Utc_sec = (int) six_state.Get(6);
-            Regional2 = (int) six_state.Get(2);
-            Unit_flag = (int) six_state.Get(1);
-            Display_flag = (int) six_state.Get(1);
-            Dsc_flag = (int) six_state.Get(1);
-            Band_flag = (int) six_state.Get(1);
-            Msg22_flag = (int) six_state.Get(1);
-            Mode_flag = (int) six_state.Get(1);
-            Raim = (int) six_state.Get(1);
-            Comm_state = (int) six_state.Get(1);
+            Cog = (int) sixState.Get(12);
+            True_heading = (int) sixState.Get(9);
+            Utc_sec = (int) sixState.Get(6);
+            Regional2 = (int) sixState.Get(2);
+            Unit_flag = (int) sixState.Get(1);
+            Display_flag = (int) sixState.Get(1);
+            Dsc_flag = (int) sixState.Get(1);
+            Band_flag = (int) sixState.Get(1);
+            Msg22_flag = (int) sixState.Get(1);
+            Mode_flag = (int) sixState.Get(1);
+            Raim = (int) sixState.Get(1);
+            Comm_state = (int) sixState.Get(1);
 
             if (Comm_state == 0)
-                Sotdma_state = new Sotdma(six_state);
+                Sotdma_state = new Sotdma(sixState);
             else
-                Itdma_state = new Itdma(six_state);
+                Itdma_state = new Itdma(sixState);
         }
     }
 }
