@@ -33,6 +33,7 @@ namespace AisParser.Tests {
             AssertEquals("sub_message", 1805, msg.SubMessage);
         }
 
+        [Fact]
         public void TestMessage2() {
             var  vdm_message = new Vdm();
             var msg = new Message2();

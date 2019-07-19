@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 namespace AisParser {
-    internal static class StringHelperClass {
+    internal static class StringHelper {
         //----------------------------------------------------------------------------------
         //	This method replaces the Java String.substring method when 'start' is a
         //	method call or calculated value to ensure that 'start' is obtained just once.
