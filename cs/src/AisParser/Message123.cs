@@ -53,8 +53,14 @@ namespace AisParser {
         public int UtcSec { get; private set; }
 
         /// <summary>
-        ///     4 bits  : Regional bits
+        ///     4 bits  : Reserved for regional
         /// </summary>
+        /// <remarks>
+        /// manoeuvre indicator 
+        ///     0 = not available = default 
+        ///     1 = not engaged in special manoeuvre 
+        ///     2 = engaged in special manoeuvre (i.e. regional passing arrangement on Inland Waterway) 
+        /// </remarks>
         public int Regional { get; private set; }
 
         /// <summary>

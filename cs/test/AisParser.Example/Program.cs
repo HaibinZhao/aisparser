@@ -31,7 +31,7 @@ namespace AisParser.Example {
                             count++;
                             try {
                                 var msg = vdm.ToMessage();
-                                FormatMsg(vdm, msg);
+                                FormatMsg(msg);
                             } catch (Exception ex) {
                                 Console.Error.WriteLine(ex.ToString());
                             }
@@ -69,7 +69,7 @@ namespace AisParser.Example {
             return builder.ToString();
         }
 
-        private static void FormatMsg(Vdm vdm,Messages msg) {
+        private static void FormatMsg(Messages msg) {
             Console.WriteLine("Message_{0} MMSI:{1}", msg.MsgId, msg.UserId);
             if(msg is Message1 msg1){
                 Console.WriteLine(FormatMsg(msg1));
@@ -79,7 +79,7 @@ namespace AisParser.Example {
         }
 
         private static  string FormatMsg(Message1 msg) {
-            return $"\tMMSI:{msg.UserId} NavStatus:{msg.NavStatus} Cog:{msg.Cog/100f} Pos:{msg.Pos}";
+            return $"\tMMSI:{msg.UserId} NavStatus:{msg.NavStatus} Cog:{msg.Cog/100f} Pos:{msg.Pos} Reserved for regional {msg.Regional}";
         }
 
          private static  string FormatMsg(Message5 msg) {
