@@ -108,5 +108,9 @@ namespace AisParser {
             Raim = (int) sixState.Get(1);
             SyncState = (int) sixState.Get(2);
         }
+
+        public override string ToString(){
+            return $"Message{MsgId} {{UserID:{UserId} , NavStatus:{NavStatus}, Rot:{Rot}, Sog:{Sog}, PosAcc:{PosAcc},Pos:{Pos},Cog:{Cog},Heading:{TrueHeading},UtcSec:{UtcSec},Regional:{Regional},Spare:{Spare},Raim:{Raim} }}";
+        }
     }
 }

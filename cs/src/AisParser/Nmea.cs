@@ -3,21 +3,16 @@ using System.Linq;
 
 namespace AisParser {
     internal class StartNotFoundException : Exception {
-        public StartNotFoundException() {
-        }
+        public StartNotFoundException () { }
 
-        public StartNotFoundException(string str) : base(str) {
-        }
+        public StartNotFoundException (string str) : base (str) { }
     }
 
     internal class IllegalNmeaCharacterException : Exception {
-        public IllegalNmeaCharacterException() {
-        }
+        public IllegalNmeaCharacterException () { }
 
-        public IllegalNmeaCharacterException(string str) : base(str) {
-        }
+        public IllegalNmeaCharacterException (string str) : base (str) { }
     }
-
 
     /// <summary>
     ///     NMEA message class
@@ -32,7 +27,7 @@ namespace AisParser {
         ///     Initialize it with a NMEA message string
         /// </summary>
         /// <param name="msg"></param>
-        public void Init(string msg) {
+        public void Init (string msg) {
             _msg = msg;
         }
 
@@ -44,11 +39,11 @@ namespace AisParser {
         /// <param name="msg"></param>
         /// <param name="offset">field start pos</param>
         /// <returns></returns>
-        public static string NextField(string msg,int offset = 0) {
+        public static string NextField (string msg, int offset = 0) {
             for (var i = offset; i < msg.Length; i++) {
                 var c = msg[i];
                 if (c == ',' || c == '*') {
-                    return msg.Substring(offset, i - offset);
+                    return msg.Substring (offset, i - offset);
                 }
             }
 
@@ -64,14 +59,14 @@ namespace AisParser {
         /// </summary>
         /// <returns>index of the start character</returns>
         /// <exception cref="StartNotFoundException"></exception>
-        public static int FindStart(string msg) {
+        public static int FindStart (string msg) {
             var i = 0;
             foreach (var x in msg) {
                 if (x == '!' || x == '$') return i;
                 i++;
             }
 
-            throw new StartNotFoundException("NMEA Start Not Found");
+            throw new StartNotFoundException ("NMEA Start Not Found");
         }
 
         /// <summary>
@@ -82,14 +77,14 @@ namespace AisParser {
         /// </summary>
         /// <exception cref="StartNotFoundException"></exception>
         /// <exception cref="IllegalNmeaCharacterException"></exception>
-        public static int CalculateChecksum(string msg) {
+        public static int CalculateChecksum (string msg) {
             // Find start of sentence, after a '!' or '$'
-            var ptr = FindStart(msg) + 1;
+            var ptr = FindStart (msg) + 1;
 
             var checksum = 0;
-            foreach (var c in msg.Skip(ptr)) {
+            foreach (var c in msg.Skip (ptr)) {
                 if (c == '!' || c == '$')
-                    throw new IllegalNmeaCharacterException("Start Character Found before Checksum");
+                    throw new IllegalNmeaCharacterException ("Start Character Found before Checksum");
 
                 if (c == '*') break;
 
@@ -107,28 +102,34 @@ namespace AisParser {
         ///     - 1 if it does not match
         ///     - 2 if there was an error
         /// </returns>
-        public static int CheckChecksum(string msg) {
+        public static int CheckChecksum (string msg) {
             string msgChecksum;
             int checksum;
             try {
-                checksum = CalculateChecksum(msg);
+                checksum = CalculateChecksum (msg);
             } catch (StartNotFoundException) {
                 return 2;
             } catch (IllegalNmeaCharacterException) {
                 return 2;
             }
 
-            var ptr = msg.IndexOf('*');
+            var ptr = msg.IndexOf ('*');
             if (ptr < 0) return 2;
 
             try {
-                msgChecksum = msg.Substring(ptr + 1, ptr + 3 - (ptr + 1));
+                msgChecksum = msg.Substring (ptr + 1, ptr + 3 - (ptr + 1));
             } catch (IndexOutOfRangeException) {
                 return 2;
             }
 
-            if (Convert.ToInt32(msgChecksum, 16) != checksum) return 1;
-            return 0;
+            if (int.TryParse (msgChecksum,
+                    System.Globalization.NumberStyles.HexNumber,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out var value)) {
+                return checksum == value?0 : 1;
+            }else{
+                return 2;
+            }
         }
 
         #endregion
@@ -142,16 +143,15 @@ namespace AisParser {
         /// </summary>
         /// <returns>index of the start character</returns>
         /// <exception cref="StartNotFoundException"></exception>
-        public int FindStart() {
+        public int FindStart () {
             var i = 0;
             foreach (var x in _msg) {
                 if (x == '!' || x == '$') return i;
                 i++;
             }
 
-            throw new StartNotFoundException("NMEA Start Not Found");
+            throw new StartNotFoundException ("NMEA Start Not Found");
         }
-
 
         /// <summary>
         ///     Calculate the checksum of a NMEA 0183 sentence
@@ -161,14 +161,14 @@ namespace AisParser {
         /// </summary>
         /// <exception cref="StartNotFoundException"></exception>
         /// <exception cref="IllegalNmeaCharacterException"></exception>
-        public void CalculateChecksum() {
+        public void CalculateChecksum () {
             // Find start of sentence, after a '!' or '$'
-            var ptr = FindStart() + 1;
+            var ptr = FindStart () + 1;
 
             _checksum = 0;
-            foreach (var c in _msg.Skip(ptr)) {
+            foreach (var c in _msg.Skip (ptr)) {
                 if (c == '!' || c == '$') {
-                    throw new IllegalNmeaCharacterException("Start Character Found before Checksum");
+                    throw new IllegalNmeaCharacterException ("Start Character Found before Checksum");
                 }
 
                 if (c == '*') break;
@@ -176,7 +176,6 @@ namespace AisParser {
                 _checksum ^= c;
             }
         }
-
 
         /// <summary>
         ///     Check and return the checksum of a NMEA 0183 sentence
@@ -187,27 +186,27 @@ namespace AisParser {
         ///     - 1 if it does not match
         ///     - 2 if there was an error
         /// </returns>
-        public int CheckChecksum() {
+        public int CheckChecksum () {
             string msgChecksum;
 
             try {
-                CalculateChecksum();
+                CalculateChecksum ();
             } catch (StartNotFoundException) {
                 return 2;
             } catch (IllegalNmeaCharacterException) {
                 return 2;
             }
 
-            var ptr = _msg.IndexOf('*');
+            var ptr = _msg.IndexOf ('*');
             if (ptr < 0) return 2;
 
             try {
-                msgChecksum = _msg.Substring(ptr + 1, ptr + 3 - (ptr + 1));
+                msgChecksum = _msg.Substring (ptr + 1, ptr + 3 - (ptr + 1));
             } catch (IndexOutOfRangeException) {
                 return 2;
             }
 
-            if (Convert.ToInt32(msgChecksum, 16) != _checksum) return 1;
+            if (Convert.ToInt32 (msgChecksum, 16) != _checksum) return 1;
             return 0;
         }
     }

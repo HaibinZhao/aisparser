@@ -33,5 +33,9 @@ namespace AisParser {
             Repeat = (int) sixState.Get(2);
             UserId = sixState.Get(30);
         }
+
+        public override string ToString(){
+            return $"Message{MsgId} {{UserID:{UserId} , Repeat:{Repeat} }}";
+        }
     }
 }

@@ -53,7 +53,7 @@ namespace AisParser {
                 case 24:
                     return new Message24(sixbit);
                 default:
-                    return null;
+                    return new UnknownMessage(vdm.MsgId,sixbit);
                     
             }
         }

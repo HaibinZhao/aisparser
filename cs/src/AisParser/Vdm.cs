@@ -102,13 +102,18 @@ namespace AisParser {
             int num;
             int sequence;
 
-            if (Nmea.CheckChecksum(str)!= 0) throw new ChecksumFailedException();
+            if (Nmea.CheckChecksum(str)!= 0){
+                //throw new ChecksumFailedException();
+                return VdmStatus.ChecksumFailed;
+            } 
             var ptr = Nmea.FindStart(str);
 
             // Allow any sender type for VDM and VDO messages
             //if (!str.regionMatches(ptr + 3, "VDM", 0, 3) && !str.regionMatches(ptr + 3, "VDO", 0, 3))
             var tag = str.Substring(ptr + 3, 3);
-            if (!tag.Equals("VDM") && !tag.Equals("VDO")) throw new VDMSentenceException("Not a VDM or VDO message");
+            if (!tag.Equals("VDM") && !tag.Equals("VDO")){
+               throw new VDMSentenceException($"{tag} Is Not a VDM or VDO message"); 
+            }
 
             var fields = FieldSpliter.Split(str); //str.Split(",|\\*", true);
             if (fields.Length != 8) throw new VDMSentenceException("Does not have 8 fields");
