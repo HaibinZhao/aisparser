@@ -54,7 +54,15 @@
         /// <summary>Returns a string that represents the current object.</summary>
         /// <returns>A string that represents the current object.</returns>
         public override string ToString() {
-            return $"{{lat:{Latitude/ 600000d},lng:{Longitude/ 600000d}}}";
+            return $"{{lng:{Longitude/ 600000d},lat:{Latitude/ 600000d}}}";
+        }
+
+        /// <summary>
+        /// Get Coordinates [longitude,latitude]
+        /// </summary>
+        /// <returns></returns>
+        public double[] ToCoordinates(){
+            return new double[]{Longitude/ 600000d,Latitude/ 600000d};
         }
 
         #endregion

@@ -18,8 +18,7 @@
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <VersionPrefix>1.0.1</VersionPrefix>
-    <VersionSuffix>alpha3</VersionSuffix>
+    <VersionPrefix>1.0.2</VersionPrefix>
   </PropertyGroup>
   
 </Project>
