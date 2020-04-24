@@ -11,10 +11,14 @@
         public Position() { }
 
         public Position(long longitude, long latitude) {
-            this._longitude = longitude;
-            this._latitude = latitude;
+            this.Longitude = longitude;
+            this.Latitude = latitude;
         }
 
+        /// <summary>
+        /// 1/10000 degree Longitude
+        /// </summary>
+        /// <value></value>
         public long Longitude {
             get => _longitude;
             set {
@@ -28,6 +32,10 @@
             }
         }
 
+        /// <summary>
+        /// 1/10000 degree Latitude
+        /// </summary>
+        /// <value></value>
         public long Latitude {
             get => _latitude;
             set {
@@ -46,7 +54,7 @@
         /// <summary>Returns a string that represents the current object.</summary>
         /// <returns>A string that represents the current object.</returns>
         public override string ToString() {
-            return $"{{lat:{Latitude/ 1e6},lng:{Longitude/ 1e6}}}";
+            return $"{{lat:{Latitude/ 600000d},lng:{Longitude/ 600000d}}}";
         }
 
         #endregion
